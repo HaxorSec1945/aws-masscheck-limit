@@ -1,0 +1,47 @@
+#!/bin/bash
+blue='\e[0;34'
+cyan='\e[0;36m'
+green='\e[0;34m'
+okegreen='\033[92m'
+lightgreen='\e[1;32m'
+white='\e[1;37m'
+red='\e[1;31m'
+yellow='\e[1;33m'
+
+
+
+checker(){
+id=$(echo "$list" | cut -d "|" -f1)
+secret=$(echo "$list" | cut -d "|" -f2)
+reg=$(echo "$list" | cut -d "|" -f3)
+
+
+printf "[default]\naws_access_key_id = $id\naws_secret_access_key = $secret" > /root/.aws/credentials
+printf "[default]\nregion = $reg\noutput = json" > /root/.aws/config
+
+get=$(aws ses get-send-quota)
+
+if [[ $get =~ 'Max24' ]];
+then
+echo " "
+echo -e "$okegreen[+] aws_access_key_id : $id => Mantep Bos"
+echo "$id|$secret|$reg" >> awsresult.txt
+echo "$get" | cut -d "{" -f1 | cut -d "}" -f1 >> awsresult.txt
+echo "$get" | cut -d "{" -f1 | cut -d "}" -f1
+else
+echo -e "$red[+] aws_access_key_id : $id => Denied"
+fi
+}
+
+banner(){
+echo -e $yellow"====================================="
+echo -e $yellow"       AWS Mass Checker Limit        "
+echo -e $yellow"       Copyright Mrcakil@2020        "
+echo -e $yellow"====================================="
+}
+banner
+
+for list in $(cat $1);
+        do
+checker $list
+done
