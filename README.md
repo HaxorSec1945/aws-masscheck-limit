@@ -1,7 +1,7 @@
 # AWS Mass Checker Limit
 ![alt text](https://raw.githubusercontent.com/mrcakil/aws-masscheck-limit/main/aws.png)
-Requirements :  aws-cli
-config/credentials path : /root/.aws/
+#### Requirements :  aws-cli
+#### Config/credentials path : /root/.aws/
 ### Example List : 
 ```
 aws-id-here|aws-secret-here|region
